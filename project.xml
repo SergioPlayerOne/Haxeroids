@@ -10,5 +10,7 @@
 	<haxelib name="Ember" />
 	
 	<assets path="Assets" rename="assets" />
+
+	<window width="1280" height="720" />
 	
 </project>
