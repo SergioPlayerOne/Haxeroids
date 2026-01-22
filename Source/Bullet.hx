@@ -1,3 +1,4 @@
+import haxe.xml.Printer;
 import core.Vector2;
 import openfl.Vector;
 import openfl.display.Stage;
@@ -6,6 +7,7 @@ import openfl.display.Sprite;
 class Bullet extends Sprite {
     private static inline var MOVE_SPEED:Int = 10;
     private static inline var DIRECTION_MULTIPLIER:Int = 20;
+    private static inline var POOLED_BULLETS:Int = 100;
 
     public var isActive:Bool = false;
     private var direction:Vector2 = new Vector2(0, 0);
@@ -20,9 +22,9 @@ class Bullet extends Sprite {
         stage.addChild(this);
     }
 
-    public static function initBullets(stage:Stage, pooledBullets:Int):Vector<Bullet> {
+    public static function initBullets(stage:Stage):Vector<Bullet> {
         var bulletPool = new Vector<Bullet>();
-        for (i in 0...pooledBullets) {
+        for (i in 0...POOLED_BULLETS) {
             bulletPool[i] = new Bullet(stage);
         }
         return bulletPool;
@@ -48,5 +50,16 @@ class Bullet extends Sprite {
         // Moves forward constantly in the direction it was fired in
         this.x += this.direction.x * MOVE_SPEED;
         this.y += this.direction.y * MOVE_SPEED;
+
+        // Checks if it collides with any asteroid
+        //for (asteroid in Main.asteroids) {
+        //    if (this.collidesWithAsteroid(asteroid)) {
+        //        trace("Collided!");
+        //    }
+        //}
+    }   
+
+    private function collidesWithAsteroid(asteroid:Asteroid) {
+        return (asteroid.x - this.x) * (asteroid.x - this.x) + (asteroid.y - this.y) * (asteroid.y - this.y) <= (Asteroid.RADIUS * Asteroid.RADIUS);
     }
 }

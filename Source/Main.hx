@@ -1,5 +1,6 @@
 package;
 
+import openfl.Vector;
 import openfl.Lib.getTimer;
 import openfl.events.Event;
 import openfl.display.Sprite;
@@ -10,8 +11,9 @@ import core.Actions;
  */
 class Main extends Sprite
 {
-	var spaceship:Spaceship;
-	var asteroid:Asteroid;
+	private var spaceship:Spaceship;
+	private var asteroids:Vector<Asteroid>;
+	private var bullets:Vector<Bullet>;
 
 	public function new()
 	{
@@ -20,8 +22,9 @@ class Main extends Sprite
 		stage.color = 0x000000;
 		stage.frameRate = 60;
 
-		spaceship = new Spaceship(stage);
-		asteroid = new Asteroid(stage);
+		bullets = Bullet.initBullets(stage);
+		spaceship = new Spaceship(stage, bullets);
+		asteroids = Asteroid.initTestAsteroids(stage);
 
 		Actions.init(stage);
 
@@ -37,8 +40,11 @@ class Main extends Sprite
 		var deltaTime:Float = deltaMs / 1000;
 		lastTime = currentTime;
 
-		// Updates the spaceship
+		// Updates every class that needs so
 		spaceship.update(deltaTime);
+		for (bullet in bullets) {
+			bullet.update(deltaTime); // A bullet will only update if it's active
+		}
 
 		// Sets all of the actions with isJustPressed = true or isJustReleased = true to false to avoid
 		// Those properties to carry on to the next frame
