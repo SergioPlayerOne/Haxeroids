@@ -17,18 +17,22 @@ class Spaceship extends Sprite {
     private static inline var ROTATION_DEACCELERATION:Int = 6;
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
 
+    private static inline var POOLED_BULLETS:Int = 5;
+
+    private var bulletList:Vector<Bullet>;
+
     public function new(stage:Stage) {
         super();
         
-        // Draws the ship's sprite
+        // Draws the ship's sprite and positions it in the center of the screen
         graphics.beginFill(0xFFFFFF);
         graphics.drawTriangles(Vector.ofArray([0.0, -20,  15, 15,  -15, 15]));
         graphics.endFill();
-
-        // Sets the ship in the center of the screen and adds it to the stage's children
         x = stage.stageWidth / 2;
         y = stage.stageHeight / 2;
         stage.addChild(this);
+
+        bulletList = Bullet.initBullets(stage, POOLED_BULLETS);
     }
 
     private var movementVelocity:Vector2 = new Vector2(0, 0);
@@ -110,5 +114,21 @@ class Spaceship extends Sprite {
         // Applies the movementVelocity onto the actual sprite's position
         x += movementVelocity.x;
         y += movementVelocity.y;
+
+        // Makes the spaceship shoot a bullet if the player requested to do so
+        if (Actions.isActionJustPressed("Shoot")) {
+            // Activates the next available bullet
+            for (bullet in bulletList) {
+                if (!bullet.isActive) {
+                    bullet.activate(x, y, direction);
+                    break;
+                }
+            }
+        }
+
+        // Updates all bullets. A bullet won't update itself if it's not active
+        for (bullet in bulletList) {
+            bullet.update(deltaTime);
+        }
     }
 }

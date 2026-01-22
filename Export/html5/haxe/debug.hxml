@@ -15,6 +15,7 @@
 -D howlerjs
 -D no-compilation
 -D openfl-html5
+-D disable_preloader_assets=1
 -D lime-webgl
 -D lime-dom
 -D lime-howlerjs
@@ -22,8 +23,6 @@
 -D html5
 -D web
 --remap flash:openfl
---connect
-6000
 -js Export/html5/bin/Haxeroids.js
 -cp Export/html5/haxe
 -D html5

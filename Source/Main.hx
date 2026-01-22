@@ -11,15 +11,17 @@ import core.Actions;
 class Main extends Sprite
 {
 	var spaceship:Spaceship;
+	var bullet:Bullet;
 
 	public function new()
 	{
 		super();
-		
+
 		stage.color = 0x000000;
 		stage.frameRate = 60;
 
 		spaceship = new Spaceship(stage);
+		bullet = new Bullet(stage);
 
 		Actions.init(stage);
 
@@ -27,6 +29,7 @@ class Main extends Sprite
 	}
 
 	private var lastTime:Int = 0;
+
 	private function onFrame(_:Event):Void {
 		// Calculates the time since the last frame to set it as the deltaTime
 		var currentTime:Int = getTimer();
