@@ -7,7 +7,7 @@ import openfl.display.Sprite;
 class Bullet extends Sprite {
     private static inline var MOVE_SPEED:Int = 10;
     private static inline var DIRECTION_MULTIPLIER:Int = 20;
-    private static inline var POOLED_BULLETS:Int = 100;
+    private static inline var POOLED_BULLETS:Int = 18;
 
     public var isActive:Bool = false;
     private var direction:Vector2 = new Vector2(0, 0);
@@ -42,6 +42,11 @@ class Bullet extends Sprite {
         this.direction = direction;
     }
 
+    public function deactivate() {
+        this.isActive = false;
+        this.visible = false;
+    }
+
     public function update(deltaTime:Float, asteroids:Vector<Asteroid>) {
         if (!this.isActive) {
             return;
@@ -54,8 +59,14 @@ class Bullet extends Sprite {
         // Checks if it collides with any asteroid
         for (asteroid in asteroids) {
             if (this.collidesWithAsteroid(asteroid)) {
-                trace("Collided!");
+                this.deactivate();
+                asteroid.onCollide();
             }
+        }
+
+        // If the bullet leaves off bounds, it deactivates itself
+        if (this.x > stage.stageWidth + 20 || this.x < -stage.stageWidth - 20 || this.y > stage.stageHeight + 20 || this.y < -stage.stageHeight - 20) {
+            this.deactivate();
         }
     }   
 

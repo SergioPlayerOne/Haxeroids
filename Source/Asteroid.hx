@@ -24,4 +24,8 @@ class Asteroid extends Sprite {
         asteroidList[2] = (new Asteroid(stage, -100, 300));
         return asteroidList;
     }
+
+    public function onCollide() {
+        
+    }
 }

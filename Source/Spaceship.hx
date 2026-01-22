@@ -1,9 +1,9 @@
-import haxe.display.Protocol.Version;
 import openfl.display.Stage;
 import openfl.Vector;
 import openfl.display.Sprite;
 import core.Actions;
 import core.Vector2;
+import openfl.Lib.getTimer;
 
 /**
  * The Spaceship that the player controls, which can move and shoot bullets
@@ -17,7 +17,9 @@ class Spaceship extends Sprite {
     private static inline var ROTATION_ACCELERATION:Int = 10;
     private static inline var ROTATION_DEACCELERATION:Int = 6;
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
-    
+
+    private static inline var SHOOT_COOLDOWN_MS:Int = 100;
+
     private var bullets:Vector<Bullet>;
 
     /**
@@ -42,6 +44,7 @@ class Spaceship extends Sprite {
     private var movementVelocity:Vector2 = new Vector2(0, 0);
     private var rotationVelocity:Float = 0;
     private var direction:Vector2 = new Vector2(0, 0);
+    private var lastShootTime:Int = 0;
 
     public function update(deltaTime: Float) {
         // Gets the rotation the ship has to do and applies it
@@ -119,8 +122,11 @@ class Spaceship extends Sprite {
         x += movementVelocity.x;
         y += movementVelocity.y;
 
-        // Makes the spaceship shoot a bullet if the player requested to do so
-        if (Actions.isActionJustPressed("Shoot")) {
+        // Makes the spaceship shoot a bullet if the player requested to do so and if the cooldown has finished
+        if (Actions.isActionJustPressed("Shoot") && getTimer() - lastShootTime >= SHOOT_COOLDOWN_MS) {
+            // Sets lastShootTime to the current time
+            lastShootTime = getTimer();
+
             // Activates the next available bullet
             for (bullet in bullets) {
                 if (!bullet.isActive) {
