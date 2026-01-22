@@ -7,7 +7,7 @@
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
-	<haxelib name="Ember" />
+	<haxelib name="random" />
 	
 	<assets path="Assets" rename="assets" />
 

@@ -1,13 +1,13 @@
 -main ApplicationMain 
+--macro openfl.utils._internal.ExtraParamsMacro.include()
+-cp C:/HaxeToolkit/haxe/lib/openfl/9,5,0/src
+-D openfl=9.5.0
 --macro lime._internal.macros.DefineMacro.run()
 --macro haxe.macro.Compiler.addMetadata("@:autoBuild(lime._internal.macros.AssetsMacro.embedBytes())", "haxe.io.Bytes")
 -cp C:/HaxeToolkit/haxe/lib/lime/8,3,0/src
 -D lime=8.3.0
--cp C:/Proyectos/Videojuegos/Ember/src
--D ember=0.0.1
---macro openfl.utils._internal.ExtraParamsMacro.include()
--cp C:/HaxeToolkit/haxe/lib/openfl/9,5,0/src
--D openfl=9.5.0
+-cp C:/HaxeToolkit/haxe/lib/random/1,4,1/src
+-D random=1.4.1
 -cp Source
 -D lime-openal
 -D native

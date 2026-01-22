@@ -24,7 +24,7 @@ class Main extends Sprite
 
 		bullets = Bullet.initBullets(stage);
 		spaceship = new Spaceship(stage, bullets);
-		asteroids = Asteroid.initTestAsteroids(stage);
+		asteroids = Asteroid.initAsteroids(stage);
 
 		Actions.init(stage);
 
@@ -44,6 +44,9 @@ class Main extends Sprite
 		spaceship.update(deltaTime);
 		for (bullet in bullets) {
 			bullet.update(deltaTime, asteroids); // A bullet will only update if it's active
+		}
+		for (asteroid in asteroids) {
+			asteroid.update(deltaTime);
 		}
 
 		// Sets all of the actions with isJustPressed = true or isJustReleased = true to false to avoid
