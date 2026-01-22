@@ -11,7 +11,7 @@ import core.Actions;
 class Main extends Sprite
 {
 	var spaceship:Spaceship;
-	var bullet:Bullet;
+	var asteroid:Asteroid;
 
 	public function new()
 	{
@@ -21,7 +21,7 @@ class Main extends Sprite
 		stage.frameRate = 60;
 
 		spaceship = new Spaceship(stage);
-		bullet = new Bullet(stage);
+		asteroid = new Asteroid(stage);
 
 		Actions.init(stage);
 

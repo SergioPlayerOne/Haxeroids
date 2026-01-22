@@ -17,10 +17,15 @@ class Spaceship extends Sprite {
     private static inline var ROTATION_DEACCELERATION:Int = 6;
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
 
-    private static inline var POOLED_BULLETS:Int = 5;
+    private static inline var POOLED_BULLETS:Int = 100;
 
     private var bulletList:Vector<Bullet>;
 
+    /**
+     * Creates and initializes a new Spaceship
+     *
+     * @param stage The stage to which the Spaceship will be added to
+     */
     public function new(stage:Stage) {
         super();
         
@@ -125,7 +130,6 @@ class Spaceship extends Sprite {
                 }
             }
         }
-
         // Updates all bullets. A bullet won't update itself if it's not active
         for (bullet in bulletList) {
             bullet.update(deltaTime);
