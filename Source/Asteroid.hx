@@ -19,9 +19,9 @@ class Asteroid extends Sprite {
 
     public static function initTestAsteroids(stage:Stage):Vector<Asteroid> {
         var asteroidList = new Vector<Asteroid>(3, true);
-        asteroidList.push(new Asteroid(stage, 200, -300));
-        asteroidList.push(new Asteroid(stage, -300, 200));
-        asteroidList.push(new Asteroid(stage, -100, 300));
+        asteroidList[0] = (new Asteroid(stage, 200, -300));
+        asteroidList[1] = (new Asteroid(stage, -300, 200));
+        asteroidList[2] = (new Asteroid(stage, -100, 300));
         return asteroidList;
     }
 }

@@ -42,7 +42,7 @@ class Bullet extends Sprite {
         this.direction = direction;
     }
 
-    public function update(deltaTime:Float) {
+    public function update(deltaTime:Float, asteroids:Vector<Asteroid>) {
         if (!this.isActive) {
             return;
         }
@@ -52,11 +52,11 @@ class Bullet extends Sprite {
         this.y += this.direction.y * MOVE_SPEED;
 
         // Checks if it collides with any asteroid
-        //for (asteroid in Main.asteroids) {
-        //    if (this.collidesWithAsteroid(asteroid)) {
-        //        trace("Collided!");
-        //    }
-        //}
+        for (asteroid in asteroids) {
+            if (this.collidesWithAsteroid(asteroid)) {
+                trace("Collided!");
+            }
+        }
     }   
 
     private function collidesWithAsteroid(asteroid:Asteroid) {

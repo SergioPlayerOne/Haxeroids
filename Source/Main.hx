@@ -43,7 +43,7 @@ class Main extends Sprite
 		// Updates every class that needs so
 		spaceship.update(deltaTime);
 		for (bullet in bullets) {
-			bullet.update(deltaTime); // A bullet will only update if it's active
+			bullet.update(deltaTime, asteroids); // A bullet will only update if it's active
 		}
 
 		// Sets all of the actions with isJustPressed = true or isJustReleased = true to false to avoid
