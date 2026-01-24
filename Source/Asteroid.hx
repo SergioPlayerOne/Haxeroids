@@ -3,6 +3,12 @@ import openfl.Vector;
 import openfl.display.Stage;
 import openfl.display.Sprite;
 
+private enum Size {
+    Large;
+    Medium;
+    Small;
+}
+
 class Asteroid extends Sprite {
     public static inline var RADIUS:Int = 30;
 
@@ -16,17 +22,18 @@ class Asteroid extends Sprite {
     private static inline var INITIAL_ASTEROIDS:Int = 3;
 
     public var direction:Vector2 = new Vector2(0, 0);
+    public var radius:Int;
 
-    public function new(stage:Stage) {
+    public function new(stage:Stage, size:Size) {
         super();
-
-        graphics.beginFill(0x5C5C5C);
-        graphics.drawCircle(0, 0, 40);
-        graphics.endFill();
-        stage.addChild(this);
 
         var windowPerimeter:Int = stage.stageWidth * 2 + stage.stageHeight * 2;
         var spawnPositionIndex = Random.int(0, windowPerimeter - 1);
+        this.radius = (() -> switch(size) {
+            case Large: Random.int(MIN_RADIUS_LARGE, MAX_RADIUS_LARGE);
+            case Medium: Random.int(MIN_RADIUS_MEDIUM, MAX_RADIUS_MEDIUM);
+            case Small: Random.int(MIN_RADIUS_SMALL, MAX_RADIUS_SMALL);
+        })();
 
         // Checks to which side of the window the spawnPositionIndex is pointing at
         if (spawnPositionIndex < stage.stageWidth) { // Top
@@ -46,12 +53,17 @@ class Asteroid extends Sprite {
             this.y = spawnPositionIndex - stage.stageWidth * 2 - stage.stageHeight;
             this.direction = Vector2.fromAngle(Random.int(50, 130));
         }
+
+        graphics.beginFill(0x5C5C5C);
+        graphics.drawCircle(0, 0, this.radius);
+        graphics.endFill();
+        stage.addChild(this);
     }
 
     public static function initAsteroids(stage:Stage):Vector<Asteroid> {
         var asteroidList = new Vector<Asteroid>();
         for (i in 0...INITIAL_ASTEROIDS) {
-            var asteroid = new Asteroid(stage);
+            var asteroid = new Asteroid(stage, Size.Large);
             asteroidList[i] = asteroid;
         }
         return asteroidList;
