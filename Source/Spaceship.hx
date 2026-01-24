@@ -14,8 +14,8 @@ class Spaceship extends Sprite {
     private static inline var MOVEMENT_MANUAL_DEACCELERATION: Int = 4;
     private static inline var MAX_MOVEMENT_VELOCITY:Int = 3;
 
-    private static inline var ROTATION_ACCELERATION:Int = 10;
-    private static inline var ROTATION_DEACCELERATION:Int = 6;
+    private static inline var ROTATION_ACCELERATION:Int = 18;
+    private static inline var ROTATION_DEACCELERATION:Int = 12;
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
 
     private static inline var SHOOT_COOLDOWN_MS:Int = 100;
