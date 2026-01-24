@@ -21,9 +21,13 @@ class Asteroid extends Sprite {
     private static inline var INITIAL_ASTEROIDS:Int = 3;
     private static inline var SPAWN_LOCATION_INCREMENT:Int = 90;
 
+    private static var asteroids:Vector<Asteroid>;
+
     public var direction:Vector2;
     public var radius:Int;
     public var size:AsteroidSize;
+    public var isAlive:Bool = true;
+    public var isHitByBullet:Bool = false;
 
     public function new(stage:Stage, size:AsteroidSize) {
         super();
@@ -35,44 +39,44 @@ class Asteroid extends Sprite {
             case Small: Random.int(MIN_RADIUS_SMALL, MAX_RADIUS_SMALL);
         })();
 
-        if (size == Large) { // New asteroids that spawns at the borders of the screen
-            var windowPerimeter:Int = stage.stageWidth * 2 + stage.stageHeight * 2;
-            var spawnPositionIndex = Random.int(0, windowPerimeter - 1);
-
-            // Checks to which side of the window the spawnPositionIndex is pointing at
-            if (spawnPositionIndex < stage.stageWidth) { // Top
-                this.y = -SPAWN_LOCATION_INCREMENT;
-                this.x = spawnPositionIndex;
-                this.direction = Vector2.fromAngle(Random.int(140, 220));
-            } else if (spawnPositionIndex < stage.stageWidth + stage.stageHeight) { // Right
-                this.x = stage.stageWidth + SPAWN_LOCATION_INCREMENT;
-                this.y = spawnPositionIndex - stage.stageWidth;
-                this.direction = Vector2.fromAngle(Random.int(-50, -130));
-            } else if (spawnPositionIndex < stage.stageWidth * 2 + stage.stageHeight) { // Bottom
-                this.y = stage.stageHeight + SPAWN_LOCATION_INCREMENT;
-                this.x = spawnPositionIndex - stage.stageHeight - stage.stageWidth;
-                this.direction = Vector2.fromAngle(Random.int(40, -40));
-            } else { // Left
-                this.x = -SPAWN_LOCATION_INCREMENT;
-                this.y = spawnPositionIndex - stage.stageWidth * 2 - stage.stageHeight;
-                this.direction = Vector2.fromAngle(Random.int(50, 130));
-            }
-        } else { // Asteroids created by another asteroid being destroyed
-            this.x = x;
-            this.y = y;
-
-        }
-
         graphics.beginFill(0x5C5C5C);
         graphics.drawCircle(0, 0, this.radius);
         graphics.endFill();
         stage.addChild(this);
     }
 
-    public static function initAsteroids(stage:Stage):Vector<Asteroid> {
+    public static function atScreenBorder(stage:Stage):Asteroid {
+        var asteroid = new Asteroid(stage, Large);
+        var windowPerimeter:Int = stage.stageWidth * 2 + stage.stageHeight * 2;
+        var spawnPositionIndex = Random.int(0, windowPerimeter - 1);
+
+        // Checks to which side of the window the spawnPositionIndex is pointing at
+        if (spawnPositionIndex < stage.stageWidth) { // Top
+            asteroid.y = -SPAWN_LOCATION_INCREMENT;
+            asteroid.x = spawnPositionIndex;
+            asteroid.direction = Vector2.fromAngle(Random.int(140, 220));
+        } else if (spawnPositionIndex < stage.stageWidth + stage.stageHeight) { // Right
+            asteroid.x = stage.stageWidth + SPAWN_LOCATION_INCREMENT;
+            asteroid.y = spawnPositionIndex - stage.stageWidth;
+            asteroid.direction = Vector2.fromAngle(Random.int(-50, -130));
+        } else if (spawnPositionIndex < stage.stageWidth * 2 + stage.stageHeight) { // Bottom
+            asteroid.y = stage.stageHeight + SPAWN_LOCATION_INCREMENT;
+            asteroid.x = spawnPositionIndex - stage.stageHeight - stage.stageWidth;
+            asteroid.direction = Vector2.fromAngle(Random.int(40, -40));
+        } else { // Left
+            asteroid.x = -SPAWN_LOCATION_INCREMENT;
+            asteroid.y = spawnPositionIndex - stage.stageWidth * 2 - stage.stageHeight;
+            asteroid.direction = Vector2.fromAngle(Random.int(50, 130));
+        }
+
+        return asteroid;
+    }
+
+    public static function initAsteroids(stage:Stage, asteroidsMain:Vector<Asteroid>):Vector<Asteroid> {
+        asteroids = asteroidsMain;
         var asteroidList = new Vector<Asteroid>();
         for (i in 0...INITIAL_ASTEROIDS) {
-            var asteroid = new Asteroid(stage, AsteroidSize.Large);
+            var asteroid = Asteroid.atScreenBorder(stage);
             asteroidList[i] = asteroid;
         }
         return asteroidList;
@@ -81,19 +85,19 @@ class Asteroid extends Sprite {
     public function update(deltaTime:Float) {
         this.x += this.direction.x * 100 * deltaTime;
         this.y += this.direction.y * 100 * deltaTime;
+
+        // If it goes out of the screen's bounds, it kill itself
+        if (this.x > stage.stageWidth + 100 || this.x < -stage.stageWidth - 100 || this.y > stage.stageHeight + 100 || this.y < -stage.stageHeight - 100) {
+            this.destroy();
+        }
     }
 
     public function onCollide() {
-        switch (this.size) {
-            case Large: {
+        isHitByBullet = true;
+    }
 
-            }
-            case Medium: {
-
-            }
-            case Small: {
-
-            }
-        }
+    public function destroy() {
+        isAlive = false;
+        this.parent.removeChild(this);
     }
 }

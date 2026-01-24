@@ -40,6 +40,7 @@ abstract Vector2(Vector2Default) from Vector2Default to Vector2Default {
         return new Vector2(Math.cos(rad), Math.sin(rad));
     }
 
+
     @:op(A > B)
     public static inline function greaterThan(a:Vector2, b:Vector2) {
         return a.magnitudeSq() > b.magnitudeSq();
