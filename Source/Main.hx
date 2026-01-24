@@ -56,14 +56,13 @@ class Main extends Sprite
 			asteroid.update(deltaTime);
 		}
 		
-		// Spawns 2 new asteroids when currentTime reaches nextAsteroidTime
+		// Spawns 3 new asteroids when currentTime reaches nextAsteroidTime
 		if (currentTime >= nextAsteroidTime) {
 			asteroids.push(new Asteroid(stage, AsteroidSize.Large));
 			asteroids.push(new Asteroid(stage, AsteroidSize.Large));
 			asteroids.push(new Asteroid(stage, AsteroidSize.Large));
 			nextAsteroidTime += Random.int(MIN_ASTEROID_TIME_INCREMENT, MAX_ASTEROID_TIME_INCREMENT);
 		}
-
 
 		// Sets all of the actions with isJustPressed = true or isJustReleased = true to false to avoid
 		// Those properties to carry on to the next frame

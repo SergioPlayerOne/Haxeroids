@@ -10,8 +10,6 @@ enum AsteroidSize {
 }
 
 class Asteroid extends Sprite {
-    public static inline var RADIUS:Int = 30;
-
     private static inline var MIN_RADIUS_LARGE:Int = 80;
     private static inline var MAX_RADIUS_LARGE:Int = 100;
     private static inline var MIN_RADIUS_MEDIUM:Int = 50;

@@ -66,6 +66,6 @@ class Bullet extends Sprite {
     }   
 
     private function collidesWithAsteroid(asteroid:Asteroid) {
-        return (asteroid.x - this.x) * (asteroid.x - this.x) + (asteroid.y - this.y) * (asteroid.y - this.y) <= (Asteroid.RADIUS * Asteroid.RADIUS);
+        return (asteroid.x - this.x) * (asteroid.x - this.x) + (asteroid.y - this.y) * (asteroid.y - this.y) <= (asteroid.radius * asteroid.radius);
     }
 }
