@@ -27,8 +27,7 @@ class Main extends Sprite
 	private var asteroids:Array<Asteroid>;
 	private var bullets:Array<Bullet>;
 
-	public function new()
-	{
+	public function new() {
 		super();
 
 		stage.color = 0x000000;
@@ -42,7 +41,6 @@ class Main extends Sprite
 	}
 
 	private var lastFrameTime:Int = 0;
-	private var lastAsteroidTime:Int = 0;
 	private var nextAsteroidTime:Int = 4000;
 
 	private function onFrame(_:Event):Void {
