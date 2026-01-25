@@ -47,6 +47,8 @@ class Bullet extends Sprite {
     }
 
     public function update(deltaTime:Float, asteroids:Vector<Asteroid>) {
+        if (!this.isActive) return;
+        
         // Moves forward constantly in the direction it was fired in
         this.x += this.direction.x * MOVE_SPEED;
         this.y += this.direction.y * MOVE_SPEED;

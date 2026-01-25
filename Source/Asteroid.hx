@@ -18,6 +18,13 @@ class Asteroid extends Sprite {
     private static inline var MIN_RADIUS_SMALL:Int = 20;
     private static inline var MAX_RADIUS_SMALL:Int = 30;
 
+    private static inline var MIN_SPEED_LARGE:Int = 90;
+    private static inline var MAX_SPEED_LARGE:Int = 110;
+    private static inline var MIN_SPEED_MEDIUM:Int = 150;
+    private static inline var MAX_SPEED_MEDIUM:Int = 180;
+    private static inline var MIN_SPEED_SMALL:Int = 220;
+    private static inline var MAX_SPEED_SMALL:Int = 300;
+
     private static inline var INITIAL_ASTEROIDS:Int = 3;
     private static inline var SPAWN_LOCATION_INCREMENT:Int = 90;
 
@@ -26,6 +33,7 @@ class Asteroid extends Sprite {
     public var direction:Vector2;
     public var radius:Int;
     public var size:AsteroidSize;
+    public var speed:Int;
     public var isAlive:Bool = true;
     public var isHitByBullet:Bool = false;
 
@@ -33,6 +41,11 @@ class Asteroid extends Sprite {
         super();
 
         this.size = size;
+        this.speed = (() -> switch(size) {
+            case Large: Random.int(MIN_SPEED_LARGE, MAX_SPEED_LARGE);
+            case Medium: Random.int(MIN_SPEED_MEDIUM, MAX_SPEED_MEDIUM);
+            case Small: Random.int(MIN_SPEED_SMALL, MAX_SPEED_SMALL);
+        })();
         this.radius = (() -> switch(size) {
             case Large: Random.int(MIN_RADIUS_LARGE, MAX_RADIUS_LARGE);
             case Medium: Random.int(MIN_RADIUS_MEDIUM, MAX_RADIUS_MEDIUM);
@@ -83,8 +96,8 @@ class Asteroid extends Sprite {
     }
 
     public function update(deltaTime:Float) {
-        this.x += this.direction.x * 100 * deltaTime;
-        this.y += this.direction.y * 100 * deltaTime;
+        this.x += this.direction.x * this.speed * deltaTime;
+        this.y += this.direction.y * this.speed * deltaTime;
 
         // If it goes out of the screen's bounds, it kill itself
         if (this.x > stage.stageWidth + 100 || this.x < -stage.stageWidth - 100 || this.y > stage.stageHeight + 100 || this.y < -stage.stageHeight - 100) {

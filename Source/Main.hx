@@ -14,8 +14,8 @@ import core.Vector2;
  */
 class Main extends Sprite
 {
-	private static inline var MIN_ASTEROID_TIME_INCREMENT = 5000;
-	private static inline var MAX_ASTEROID_TIME_INCREMENT = 7000;
+	private static inline var MIN_ASTEROID_TIME_INCREMENT = 4000;
+	private static inline var MAX_ASTEROID_TIME_INCREMENT = 6000;
 
 	private var spaceship:Spaceship;
 	private var asteroids:Vector<Asteroid>;
@@ -39,7 +39,7 @@ class Main extends Sprite
 
 	private var lastFrameTime:Int = 0;
 	private var lastAsteroidTime:Int = 0;
-	private var nextAsteroidTime:Int = 5000;
+	private var nextAsteroidTime:Int = 4000;
 
 	private function onFrame(_:Event):Void {
 		// Calculates the time since the last frame to set it as the deltaTime
@@ -55,7 +55,7 @@ class Main extends Sprite
 			bullet.update(deltaTime, asteroids); // A bullet will only update if it's active
 		}
 		
-		// Asteroids are more complex because they have to be created and deletet at runtime
+		// Asteroids are more complex because they have to be created and deleted at runtime
 		var i = asteroids.length - 1;
 		while (i >= 0) {
 			var asteroid = asteroids[i];
@@ -81,8 +81,10 @@ class Main extends Sprite
 						var asteroid_2 = new Asteroid(stage, newSize);
 						asteroid_2.x = asteroid.x;
 						asteroid_2.y = asteroid.y;
-						asteroid_2.direction = Vector2.fromAngle(Random.int(-180, 180));
+						asteroid_2.direction = Vector2.rotateFromAngle(-asteroid_1.direction, Random.int(-30, 30));
 						asteroids.push(asteroid_2);
+
+						asteroid.destroy();
 					}
 					asteroid.isHitByBullet = false;
 				}
