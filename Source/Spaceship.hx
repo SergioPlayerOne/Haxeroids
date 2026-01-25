@@ -19,26 +19,32 @@ class Spaceship extends Sprite {
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
 
     private static inline var SHOOT_COOLDOWN_MS:Int = 100;
+    private static inline var COLLISION_RADIUS:Int = 10;
 
     private var bullets:Vector<Bullet>;
+    private var asteroids:Vector<Asteroid>;
 
     /**
      * Creates and initializes a new Spaceship
      *
      * @param stage The stage to which the Spaceship will be added to
      */
-    public function new(stage:Stage, bullets:Vector<Bullet>) {
+    public function new(stage:Stage, bullets:Vector<Bullet>, asteroids:Vector<Asteroid>):Void {
         super();
         
         // Draws the ship's sprite and positions it in the center of the screen
         graphics.beginFill(0xFFFFFF);
         graphics.drawTriangles(Vector.ofArray([0.0, -20,  15, 15,  -15, 15]));
         graphics.endFill();
+        graphics.beginFill(0xFF0000);
+        graphics.drawCircle(0, 5, COLLISION_RADIUS);
+        graphics.endFill();
         this.x = stage.stageWidth / 2;
         this.y = stage.stageHeight / 2;
         stage.addChild(this);
 
         this.bullets = bullets;
+        this.asteroids = asteroids;
     }
 
     private var movementVelocity:Vector2 = new Vector2(0, 0);
@@ -121,6 +127,19 @@ class Spaceship extends Sprite {
         // Applies the movementVelocity onto the actual sprite's position
         x += movementVelocity.x;
         y += movementVelocity.y;
+
+        // Checks if it's colliding with any asteroid
+        for (asteroid in this.asteroids) {
+            var dx = this.x - asteroid.x;
+            var dy = this.y - asteroid.y;
+            var distSq = dx * dx + dy * dy;
+            var radiusSum = COLLISION_RADIUS + asteroid.radius;
+            var radiusSumSq = radiusSum * radiusSum;
+            
+            if (distSq <= radiusSumSq) {
+                trace("The spaceship was hit by an asteroid");
+            }
+        }
 
         // Makes the spaceship shoot a bullet if the player requested to do so and if the cooldown has finished
         if (Actions.isActionJustPressed("Shoot") && getTimer() - lastShootTime >= SHOOT_COOLDOWN_MS) {

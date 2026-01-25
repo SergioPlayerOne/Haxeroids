@@ -29,11 +29,9 @@ class Main extends Sprite
 		stage.frameRate = 60;
 
 		bullets = Bullet.initBullets(stage);
-		spaceship = new Spaceship(stage, bullets);
 		asteroids = Asteroid.initAsteroids(stage, asteroids);
-
+		spaceship = new Spaceship(stage, bullets, asteroids);
 		Actions.init(stage);
-
 		addEventListener(Event.ENTER_FRAME, onFrame);
 	}
 
@@ -95,8 +93,9 @@ class Main extends Sprite
 			i--;
 		}
 		
-		// Spawns 3 new asteroids when currentTime reaches nextAsteroidTime
+		// Spawns 4 new asteroids when currentTime reaches nextAsteroidTime
 		if (currentTime >= nextAsteroidTime) {
+			asteroids.push(Asteroid.atScreenBorder(stage));
 			asteroids.push(Asteroid.atScreenBorder(stage));
 			asteroids.push(Asteroid.atScreenBorder(stage));
 			asteroids.push(Asteroid.atScreenBorder(stage));
