@@ -1,6 +1,8 @@
+package entities;
+
 import openfl.display.Stage;
-import openfl.Vector;
 import openfl.display.Sprite;
+import openfl.Vector;
 import core.Actions;
 import core.Vector2;
 import openfl.Lib.getTimer;
@@ -21,15 +23,15 @@ class Spaceship extends Sprite {
     private static inline var SHOOT_COOLDOWN_MS:Int = 100;
     private static inline var COLLISION_RADIUS:Int = 10;
 
-    private var bullets:Vector<Bullet>;
-    private var asteroids:Vector<Asteroid>;
+    private var bullets:Array<Bullet>;
+    private var asteroids:Array<Asteroid>;
 
     /**
      * Creates and initializes a new Spaceship
      *
      * @param stage The stage to which the Spaceship will be added to
      */
-    public function new(stage:Stage, bullets:Vector<Bullet>, asteroids:Vector<Asteroid>):Void {
+    public function new(stage:Stage, bullets:Array<Bullet>, asteroids:Array<Asteroid>):Void {
         super();
         
         // Draws the ship's sprite and positions it in the center of the screen

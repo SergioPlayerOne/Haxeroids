@@ -1,5 +1,7 @@
+package entities;
+
+import entities.Asteroid;
 import core.Vector2;
-import openfl.Vector;
 import openfl.display.Stage;
 import openfl.display.Sprite;
 
@@ -21,8 +23,8 @@ class Bullet extends Sprite {
         stage.addChild(this);
     }
 
-    public static function initBullets(stage:Stage):Vector<Bullet> {
-        var bulletPool = new Vector<Bullet>();
+    public static function initBullets(stage:Stage):Array<Bullet> {
+        var bulletPool = new Array<Bullet>();
         for (i in 0...POOLED_BULLETS) {
             bulletPool[i] = new Bullet(stage);
         }
@@ -46,7 +48,7 @@ class Bullet extends Sprite {
         this.visible = false;
     }
 
-    public function update(deltaTime:Float, asteroids:Vector<Asteroid>) {
+    public function update(deltaTime:Float, asteroids:Array<Asteroid>) {
         if (!this.isActive) return;
         
         // Moves forward constantly in the direction it was fired in
@@ -54,7 +56,7 @@ class Bullet extends Sprite {
         this.y += this.direction.y * MOVE_SPEED;
 
         // Checks if it collides with any asteroid
-        for (asteroid in asteroids) {
+        for (asteroid in asteroids.iterator()) {
             if (this.collidesWithAsteroid(asteroid)) {
                 this.deactivate();
                 asteroid.onCollide();

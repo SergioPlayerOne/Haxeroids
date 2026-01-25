@@ -1,13 +1,19 @@
 package;
 
 import Random;
-import Asteroid.AsteroidSize;
 import openfl.Vector;
 import openfl.Lib.getTimer;
 import openfl.events.Event;
 import openfl.display.Sprite;
+import entities.Asteroid;
+import entities.Spaceship;
+import entities.Bullet;
 import core.Actions;
 import core.Vector2;
+
+enum GameState {
+	
+}
 
 /**
  * The entry point of the game which initializes the game in its initial state
@@ -18,8 +24,8 @@ class Main extends Sprite
 	private static inline var MAX_ASTEROID_TIME_INCREMENT = 6000;
 
 	private var spaceship:Spaceship;
-	private var asteroids:Vector<Asteroid>;
-	private var bullets:Vector<Bullet>;
+	private var asteroids:Array<Asteroid>;
+	private var bullets:Array<Bullet>;
 
 	public function new()
 	{
@@ -87,7 +93,7 @@ class Main extends Sprite
 					asteroid.isHitByBullet = false;
 				}
 			} else {
-				asteroids.removeAt(i);
+				asteroids.remove(asteroids[i]);
 			}
 
 			i--;

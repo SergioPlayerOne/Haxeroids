@@ -1,6 +1,6 @@
-import haxe.macro.Expr.Case;
+package entities;
+
 import core.Vector2;
-import openfl.Vector;
 import openfl.display.Stage;
 import openfl.display.Sprite;
 
@@ -28,7 +28,7 @@ class Asteroid extends Sprite {
     private static inline var INITIAL_ASTEROIDS:Int = 3;
     private static inline var SPAWN_LOCATION_INCREMENT:Int = 90;
 
-    private static var asteroids:Vector<Asteroid>;
+    private static var asteroids:Array<Asteroid>;
 
     public var direction:Vector2;
     public var radius:Int;
@@ -85,9 +85,9 @@ class Asteroid extends Sprite {
         return asteroid;
     }
 
-    public static function initAsteroids(stage:Stage, asteroidsMain:Vector<Asteroid>):Vector<Asteroid> {
+    public static function initAsteroids(stage:Stage, asteroidsMain:Array<Asteroid>):Array<Asteroid> {
         asteroids = asteroidsMain;
-        var asteroidList = new Vector<Asteroid>();
+        var asteroidList = new Array<Asteroid>();
         for (i in 0...INITIAL_ASTEROIDS) {
             var asteroid = Asteroid.atScreenBorder(stage);
             asteroidList[i] = asteroid;
