@@ -7,7 +7,7 @@ import openfl.display.Stage;
  */
 interface GameState {
     private var stage:Stage;
-    public function enter():Void;
+    public function enter(previousState:GameState):Void;
     public function update(deltaTime:Float, gameTime:Float):Void;
     public function exit(newState:GameState):Void;
 }

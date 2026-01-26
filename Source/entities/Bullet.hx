@@ -20,7 +20,6 @@ class Bullet extends Sprite {
         graphics.drawCircle(0, 0, 4);
         graphics.endFill();
         visible = false;
-        stage.addChild(this);
     }
 
     public static function initBullets(stage:Stage):Array<Bullet> {

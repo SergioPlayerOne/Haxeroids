@@ -26,6 +26,8 @@ class Spaceship extends Sprite {
     private var bullets:Array<Bullet>;
     private var asteroids:Array<Asteroid>;
 
+    public var isHit:Bool = false;
+
     /**
      * Creates and initializes a new Spaceship
      *
@@ -42,8 +44,7 @@ class Spaceship extends Sprite {
         graphics.drawCircle(0, 5, COLLISION_RADIUS);
         graphics.endFill();
         this.x = stage.stageWidth / 2;
-        this.y = stage.stageHeight / 2;
-        stage.addChild(this);
+		this.y = stage.stageHeight / 2;
 
         this.bullets = bullets;
         this.asteroids = asteroids;
@@ -139,7 +140,7 @@ class Spaceship extends Sprite {
             var radiusSumSq = radiusSum * radiusSum;
             
             if (distSq <= radiusSumSq) {
-                trace("The spaceship was hit by an asteroid");
+                isHit = true;
             }
         }
 

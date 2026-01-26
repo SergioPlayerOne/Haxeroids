@@ -25,7 +25,7 @@ class Asteroid extends Sprite {
     private static inline var MIN_SPEED_SMALL:Int = 220;
     private static inline var MAX_SPEED_SMALL:Int = 300;
 
-    private static inline var INITIAL_ASTEROIDS:Int = 3;
+    private static inline var INITIAL_ASTEROIDS:Int = 4;
     private static inline var SPAWN_LOCATION_INCREMENT:Int = 90;
 
     private static var asteroids:Array<Asteroid>;
@@ -55,7 +55,6 @@ class Asteroid extends Sprite {
         graphics.beginFill(0x5C5C5C);
         graphics.drawCircle(0, 0, this.radius);
         graphics.endFill();
-        stage.addChild(this);
     }
 
     public static function atScreenBorder(stage:Stage):Asteroid {
@@ -95,13 +94,13 @@ class Asteroid extends Sprite {
         return asteroidList;
     }
 
-    public function update(deltaTime:Float) {
+    public function update(deltaTime:Float, stage:Stage) {
         this.x += this.direction.x * this.speed * deltaTime;
         this.y += this.direction.y * this.speed * deltaTime;
 
-        // If it goes out of the screen's bounds, it kill itself
+        // If it goes out of the screen's bounds, kill itself
         if (this.x > stage.stageWidth + 100 || this.x < -stage.stageWidth - 100 || this.y > stage.stageHeight + 100 || this.y < -stage.stageHeight - 100) {
-            this.destroy();
+            this.destroy(stage);
         }
     }
 
@@ -109,8 +108,8 @@ class Asteroid extends Sprite {
         isHitByBullet = true;
     }
 
-    public function destroy() {
+    public function destroy(stage:Stage) {
         isAlive = false;
-        this.parent.removeChild(this);
+        stage.removeChild(this);
     }
 }
