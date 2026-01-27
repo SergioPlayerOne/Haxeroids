@@ -41,16 +41,30 @@ class Main extends Sprite {
 		// Updates the current active scene
 		gameStateManager.currentState.update(deltaTime, gameTime);
 
-		// If the ship was hit, change to GameOverState
+		// Checks the public variables of the current state
 		if (gameStateManager.currentState == gameStateManager.playingState && gameStateManager.playingState.switchToGameOverState) {
-			trace(gameStateManager.playingState.switchToGameOverState);
 			gameStateManager.changeState(gameStateManager.gameOverState);
 			gameStateManager.playingState.switchToGameOverState = false;
 		}
-
-		if (gameStateManager.currentState == gameStateManager.gameOverState && gameStateManager.gameOverState.changeToPlayingState) {
+		else if (gameStateManager.currentState == gameStateManager.gameOverState && gameStateManager.gameOverState.changeToPlayingState) {
 			gameStateManager.changeState(gameStateManager.playingState);
 			gameStateManager.gameOverState.changeToPlayingState = false;
+		}
+		else if (gameStateManager.currentState == gameStateManager.gameOverState && gameStateManager.gameOverState.changeToMainMenuState) {
+			gameStateManager.changeState(gameStateManager.mainMenuState);
+			gameStateManager.gameOverState.changeToMainMenuState = false;
+		}
+		else if (gameStateManager.currentState == gameStateManager.mainMenuState && gameStateManager.mainMenuState.changeToPlayingState) {
+			gameStateManager.changeState(gameStateManager.playingState);
+			gameStateManager.mainMenuState.changeToPlayingState = false;
+		}
+		else if (gameStateManager.currentState == gameStateManager.mainMenuState && gameStateManager.mainMenuState.changeToSettingsState) {
+			gameStateManager.changeState(gameStateManager.settingsState);
+			gameStateManager.mainMenuState.changeToSettingsState = false;
+		}
+		else if (gameStateManager.currentState == gameStateManager.settingsState && gameStateManager.settingsState.changeToMainMenuState) {
+			gameStateManager.changeState(gameStateManager.mainMenuState);
+			gameStateManager.settingsState.changeToMainMenuState = false;
 		}
 
 		// Sets all of the actions with isJustPressed = true or isJustReleased = true to false to avoid

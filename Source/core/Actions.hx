@@ -33,6 +33,7 @@ class Actions {
         actionList.set("RotateLeft", {isJustPressed: false, isPressed: false, isJustReleased: false});
         actionList.set("RotateRight", {isJustPressed: false, isPressed: false, isJustReleased: false});
         actionList.set("Shoot", {isJustPressed: false, isPressed: false, isJustReleased: false});
+        actionList.set("UI_Back", {isJustPressed: false, isPressed: false, isJustReleased: false});
 
         // Binds all of the events to their respective actions
         stage.addEventListener(KeyboardEvent.KEY_DOWN, updateActionsOnEnter);
@@ -59,6 +60,9 @@ class Actions {
         }
         else if (event.keyCode == Keyboard.SPACE) {
             setActionAsEntered("Shoot");
+        } 
+        else if (event.keyCode == Keyboard.ESCAPE) {
+            setActionAsEntered("UI_Back");
         }
     }
 
@@ -82,6 +86,9 @@ class Actions {
         }
         else if (event.keyCode == Keyboard.SPACE) {
             setActionAsReleased("Shoot");
+        } 
+        else if (event.keyCode == Keyboard.ESCAPE) {
+            setActionAsReleased("UI_Back");
         }
     }
 
