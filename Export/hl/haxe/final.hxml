@@ -22,7 +22,6 @@
 -D hl-ver=1.14.0
 -D lime-opengl
 -D no-compilation
--D disable_preloader_assets=1
 -D lime-native
 -D lime-vorbis
 -D lime-cffi

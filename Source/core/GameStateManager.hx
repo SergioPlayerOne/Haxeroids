@@ -29,6 +29,5 @@ class GameStateManager {
         currentState.exit(newGameState);
         newGameState.enter(currentState);
         currentState = newGameState;
-        trace("Changing to: " + newGameState);
     }
 }

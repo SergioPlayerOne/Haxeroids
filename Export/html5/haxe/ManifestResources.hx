@@ -73,8 +73,15 @@ import sys.FileSystem;
 
 		var data, manifest, library, bundle;
 
+		data = '{"name":null,"assets":"aoy4:pathy17:assets%2FLogo.pngy4:sizei8664y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y23:assets%2FPlayButton.pngR2i630R3R4R5R7R6tgoR0y23:assets%2FQuitButton.pngR2i519R3R4R5R8R6tgoR0y27:assets%2FSettingsButton.pngR2i645R3R4R5R9R6tgh","rootPath":null,"version":2,"libraryArgs":[],"libraryType":null}';
+		manifest = AssetManifest.parse (data, rootPath);
+		library = AssetLibrary.fromManifest (manifest);
+		Assets.registerLibrary ("default", library);
 		
 
+		library = Assets.getLibrary ("default");
+		if (library != null) preloadLibraries.push (library);
+		else preloadLibraryNames.push ("default");
 		
 
 	}
@@ -85,10 +92,20 @@ import sys.FileSystem;
 #if !display
 #if flash
 
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_logo_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_playbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_quitbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_settingsbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__manifest_default_json extends null { }
 
 
 #elseif (desktop || cpp)
 
+@:keep @:image("Assets/Logo.png") @:noCompletion #if display private #end class __ASSET__assets_logo_png extends lime.graphics.Image {}
+@:keep @:image("Assets/PlayButton.png") @:noCompletion #if display private #end class __ASSET__assets_playbutton_png extends lime.graphics.Image {}
+@:keep @:image("Assets/QuitButton.png") @:noCompletion #if display private #end class __ASSET__assets_quitbutton_png extends lime.graphics.Image {}
+@:keep @:image("Assets/SettingsButton.png") @:noCompletion #if display private #end class __ASSET__assets_settingsbutton_png extends lime.graphics.Image {}
+@:keep @:file("") @:noCompletion #if display private #end class __ASSET__manifest_default_json extends haxe.io.Bytes {}
 
 
 
