@@ -35,7 +35,11 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
+<<<<<<< HEAD
 		app.meta["build"] = "16";
+=======
+		app.meta["build"] = "21";
+>>>>>>> dev
 		app.meta["company"] = "Company Name";
 		app.meta["file"] = "Haxeroids";
 		app.meta["name"] = "Haxeroids";

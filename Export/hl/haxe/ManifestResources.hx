@@ -73,8 +73,12 @@ import sys.FileSystem;
 
 		var data, manifest, library, bundle;
 
+		Assets.libraryPaths["default"] = rootPath + "manifest/default.json";
 		
 
+		library = Assets.getLibrary ("default");
+		if (library != null) preloadLibraries.push (library);
+		else preloadLibraryNames.push ("default");
 		
 
 	}
@@ -85,6 +89,12 @@ import sys.FileSystem;
 #if !display
 #if flash
 
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_logo_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_playbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_quitbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_settingsbutton_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__assets_spaceship_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind @:noCompletion #if display private #end class __ASSET__manifest_default_json extends null { }
 
 
 #elseif (desktop || cpp)

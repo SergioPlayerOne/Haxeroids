@@ -1,8 +1,11 @@
 package entities;
 
+import openfl.geom.Point;
+import openfl.display.BitmapData;
+import openfl.display.Bitmap;
 import openfl.display.Stage;
 import openfl.display.Sprite;
-import openfl.Vector;
+import openfl.geom.Rectangle;
 import core.Actions;
 import core.Vector2;
 import openfl.Lib.getTimer;
@@ -21,12 +24,18 @@ class Spaceship extends Sprite {
     private static inline var MAX_ROTATION_VELOCITY:Int = 8;
 
     private static inline var SHOOT_COOLDOWN_MS:Int = 100;
+    private static inline var FRAME_CHANGE_MS:Int = 200;
+
     private static inline var COLLISION_RADIUS:Int = 10;
 
     private var bullets:Array<Bullet>;
     private var asteroids:Array<Asteroid>;
 
     public var isHit:Bool = false;
+
+    private var secondFrame:Bool = false;
+    private var bitmap:Bitmap;
+    private var spriteSheet:Bitmap;
 
     /**
      * Creates and initializes a new Spaceship
@@ -37,11 +46,16 @@ class Spaceship extends Sprite {
         super();
         
         // Draws the ship's sprite and positions it in the center of the screen
-        graphics.beginFill(0xFFFFFF);
-        graphics.drawTriangles(Vector.ofArray([0.0, -20,  15, 15,  -15, 15]));
-        graphics.endFill();
+        spriteSheet = new Bitmap(BitmapData.fromFile("Assets/Spaceship.png"));
+        bitmap = new Bitmap(new BitmapData(16, 16));
+        bitmap.bitmapData.copyPixels(spriteSheet.bitmapData, new Rectangle(0, 0, 16, 16), new Point());
+        bitmap.scaleX = 3;
+        bitmap.scaleY = 3;
+        bitmap.x = -24;
+        bitmap.y = -20;
+        this.addChild(bitmap);
         graphics.beginFill(0xFF0000);
-        graphics.drawCircle(0, 5, COLLISION_RADIUS);
+        graphics.drawCircle(this.x, this.y, COLLISION_RADIUS);
         graphics.endFill();
         this.x = stage.stageWidth / 2;
 		this.y = stage.stageHeight / 2;
@@ -54,8 +68,11 @@ class Spaceship extends Sprite {
     private var rotationVelocity:Float = 0;
     private var direction:Vector2 = new Vector2(0, 0);
     private var lastShootTime:Int = 0;
+    private var lastFrameChangeTime:Int = 0;
 
     public function update(deltaTime: Float) {
+        var isMoving:Bool = false;
+
         // Gets the rotation the ship has to do and applies it
         if (Actions.isActionPressed("RotateLeft")) {
             rotationVelocity -= ROTATION_ACCELERATION * deltaTime;
@@ -85,6 +102,9 @@ class Spaceship extends Sprite {
 
         // Gets the velocity the ship has to apply to itself and applies it
         if (Actions.isActionPressed("Accelerate")) {
+            // Changes the bitmap frame
+            isMoving = true;
+
             movementVelocity += direction * MOVEMENT_ACCELERATION * deltaTime;
             if (movementVelocity.x > MAX_MOVEMENT_VELOCITY) {
                 movementVelocity.x = MAX_MOVEMENT_VELOCITY;
@@ -156,6 +176,23 @@ class Spaceship extends Sprite {
                     break;
                 }
             }
+        }
+
+        // If the ship is moving, updates the ship's bitmap
+        if (isMoving) {
+            if (getTimer() - lastFrameChangeTime >= FRAME_CHANGE_MS) {
+                secondFrame = !secondFrame;
+                lastFrameChangeTime += FRAME_CHANGE_MS;
+
+                if (secondFrame) {
+                    bitmap.bitmapData.copyPixels(spriteSheet.bitmapData, new Rectangle(32, 0, 16, 16), new Point());
+                } else {
+                    bitmap.bitmapData.copyPixels(spriteSheet.bitmapData, new Rectangle(16, 0, 16, 16), new Point());
+                }
+            }
+        } else {
+            lastFrameChangeTime += getTimer() - lastFrameChangeTime;
+            bitmap.bitmapData.copyPixels(spriteSheet.bitmapData, new Rectangle(0, 0, 16, 16), new Point());
         }
     }
 }
